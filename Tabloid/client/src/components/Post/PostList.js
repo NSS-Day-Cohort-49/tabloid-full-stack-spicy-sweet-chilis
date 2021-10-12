@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllPosts, getMyPosts } from "../../modules/PostManager.js";
+import { getAllPosts } from "../../modules/PostManager.js";
 import Post from './Post.js'
 
 
@@ -7,7 +7,7 @@ const PostList = () => {
   const [posts, setPosts] = useState([]);
 
   const getPosts = () => {
-    getMyPosts().then(posts => setPosts(posts));
+    getAllPosts().then(posts => setPosts(posts));
   };
 
   useEffect(() => {
