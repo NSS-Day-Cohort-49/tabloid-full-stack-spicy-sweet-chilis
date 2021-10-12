@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Tabloid.Models;
 using Microsoft.Extensions.Configuration;
+using Tabloid.Utils;
 
 namespace Tabloid.Repositories
 {
@@ -29,8 +30,8 @@ namespace Tabloid.Repositories
                     {
                         categories.Add(new Category()
                         {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Name = reader.GetString(reader.GetOrdinal("name")),
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            Name = DbUtils.GetString(reader,"Name"),
                         });
                     }
 
