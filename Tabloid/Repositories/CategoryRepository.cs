@@ -22,9 +22,9 @@ namespace Tabloid.Repositories
                     cmd.CommandText = @"SELECT id, name
                                       FROM Category
                                       ORDER BY name";
-                    var reader = cmd.ExecuteReader();
+                    SqlDataReader reader = cmd.ExecuteReader();
 
-                    var categories = new List<Category>();
+                    List<Category> categories = new List<Category>();
 
                     while (reader.Read())
                     {

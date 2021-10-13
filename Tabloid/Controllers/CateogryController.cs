@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Tabloid.Models;
 using Tabloid.Repositories;
+using System.Security.Claims;
 
 namespace Tabloid.Controllers
 {
@@ -22,7 +23,9 @@ namespace Tabloid.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_categoryRepository.GetAllCategories());
+            var categories = _categoryRepository.GetAllCategories();
+
+            return Ok(categories);
         }
     }
 }

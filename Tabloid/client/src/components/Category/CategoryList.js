@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllCategories } from "../..modules/CategoryManager.js";
+import { getAllCategories } from "../../modules/CategoryManager.js";
 import Category from "./Category.js";
 
 const CategoryList = () => {
@@ -17,7 +17,7 @@ const CategoryList = () => {
     return (
         <div className="container">
             <div className="row justify-content-center">
-                {categories.map((categories) => (
+                {categories.map((category) => (
                     <Category category={category} key={category.id} />
                 ))}
             </div>
