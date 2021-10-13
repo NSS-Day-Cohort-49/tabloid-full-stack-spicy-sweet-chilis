@@ -65,7 +65,7 @@ namespace Tabloid.Repositories
 
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT p.*, DisplayName 
+                    cmd.CommandText = @"SELECT p.*, u.DisplayName AS Poster 
                                         FROM Post p
                                         LEFT JOIN UserProfile u ON p.UserProfileId = u.Id
                                         WHERE UserProfileId = @id
@@ -91,7 +91,7 @@ namespace Tabloid.Repositories
                             UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
                             UserProfile = new UserProfile
                             {
-                                DisplayName = DbUtils.GetString(reader, "DisplayName")
+                                DisplayName = DbUtils.GetString(reader, "Poster")
                             }
                         });
                     }
@@ -117,7 +117,7 @@ namespace Tabloid.Repositories
 
                               c.[Name] AS CategoryName,
 
-                              u.FirstName, u.LastName, u.DisplayName AS Author, 
+                              u.FirstName, u.LastName, u.DisplayName AS Poster, 
                               u.Email, u.CreateDateTime, u.ImageLocation AS AvatarImage,
                               u.UserTypeId, 
 
@@ -149,7 +149,7 @@ namespace Tabloid.Repositories
                             UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
                             UserProfile = new UserProfile
                             {
-                                DisplayName = DbUtils.GetString(reader, "Author")
+                                DisplayName = DbUtils.GetString(reader, "Poster")
                             }
                         };
                     }
