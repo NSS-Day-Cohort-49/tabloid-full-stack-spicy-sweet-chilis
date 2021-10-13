@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { ListGroup, ListGroupItem } from "reactstrap";
 import { useParams } from "react-router-dom";
 import { getPostById } from "../../modules/PostManager.js";
-import Post from './Post.js'
 
 const PostDetails = () => {
-    const [post, setPost ] = useState();
+    const [ post, setPost ] = useState();
     const { id } = useParams();
 
+
     useEffect(() => {
-        getPostById(id).then(setPost);
+        getPostById(id).then((response) => {
+          setPost(response)})
     }, []);
 
     if (!post) {
@@ -17,18 +17,21 @@ const PostDetails = () => {
     }
 
     return (
-        <div className="container">
+    <div className="container">
       <div className="row justify-content-center">
-      <img src={post.imageLocation} />
+      <img src={post.imageLocation} alt={post.title} />
       <div>
-        Posted by: {post.userProfile.displayName}
+        <h2>Title: {post.title}</h2>
         <p>
-        Title: {post.title}
+          {post.category.name}
+          </p>
+          <p>
+        Posted by: {post.userProfile.displayName}           
+        {new Date(post.publishDateTime).toLocaleDateString()}
         </p>
-        
         {post.content}
         <br/>
-        {new Date(post.publishDateTime).toLocaleDateString()}
+        
         </div>
       </div>
     </div>

@@ -1,35 +1,35 @@
 import firebase from "firebase/app";
 import "firebase/auth";
-
+import { getToken } from "./authManager";
 
 const baseUrl = '/api/post';
-
-
-export const getToken = () => firebase.auth().currentUser.getIdToken();
-
 
 export const getAllPosts = () => {
     return fetch(baseUrl)
       .then((res) => res.json())
   };
 
-export const getMyPosts = (firebaseUserId) => {
-    return getToken().then((token) =>
-    fetch(`${baseUrl}/mypost/${firebaseUserId}`, {
+  export const getMyPosts = (id) => {
+    return getToken().then((token) => {
+      return fetch(`${baseUrl}/myPost`, {
         method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).then(resp => resp.json()));
-};
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("An unknown error occorred while trying to fetch your posts");
+        }
+      });
+    });
+  };
 
-export const getPostById = id => {
+export const getPostById = (id) => {
     return fetch(`${baseUrl}/${id}`)
         .then((res) => res.json())
 };
-
-
-
 
 export const addPost = (post) => {
     return fetch(baseUrl, {

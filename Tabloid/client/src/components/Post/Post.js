@@ -10,7 +10,7 @@ const Post = ({ post }) => {
     <p className="text-left px-2">Posted by: {post.userProfile.displayName}        
          </p>
       <CardBody>
-          <h3><Link to={`/posts/${post.id}`}>{post.title}</Link></h3>      
+          <h3><Link to={`/posts/detail/${post.id}`}>{post.title}</Link></h3>      
       </CardBody>   
     </Card>
     </>

@@ -21,9 +21,10 @@ namespace Tabloid.Repositories
 
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT p.*, DisplayName 
+                    cmd.CommandText = @"SELECT p.*, u.DisplayName AS Poster, c.Name AS CategoryName
                                         FROM Post p
                                         LEFT JOIN UserProfile u ON p.UserProfileId = u.Id
+                                        LEFT JOIN Category c ON p.CategoryId = c.Id
                                         WHERE p.IsApproved = 1 AND p.PublishDateTime < SYSDATETIME()
                                         ORDER BY p.PublishDateTime DESC";
 
@@ -43,10 +44,15 @@ namespace Tabloid.Repositories
                             PublishDateTime = DbUtils.GetDateTime(reader, "PublishDateTime"),
                             IsApproved = DbUtils.IsDbNull(reader, "IsApproved"),
                             CategoryId = DbUtils.GetInt(reader, "CategoryId"),
+                            Category = new Category
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("CategoryId")),
+                                Name = reader.GetString(reader.GetOrdinal("CategoryName"))
+                            },
                             UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
                             UserProfile = new UserProfile
                             {
-                                DisplayName = DbUtils.GetString(reader, "DisplayName")
+                                DisplayName = DbUtils.GetString(reader, "Poster")
                             }
                         });
                     }
@@ -65,9 +71,10 @@ namespace Tabloid.Repositories
 
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT p.*, u.DisplayName AS Poster 
+                    cmd.CommandText = @"SELECT p.*, u.DisplayName AS Poster, c.Name AS CategoryName
                                         FROM Post p
                                         LEFT JOIN UserProfile u ON p.UserProfileId = u.Id
+                                        LEFT JOIN Category c ON p.CategoryId = c.Id
                                         WHERE UserProfileId = @id
                                         ORDER BY p.CreateDateTime DESC";
                     cmd.Parameters.AddWithValue("@id", currentUserId);
@@ -88,6 +95,11 @@ namespace Tabloid.Repositories
                             PublishDateTime = DbUtils.GetDateTime(reader, "PublishDateTime"),
                             IsApproved = DbUtils.IsDbNull(reader, "IsApproved"),
                             CategoryId = DbUtils.GetInt(reader, "CategoryId"),
+                            Category = new Category
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("CategoryId")),
+                                Name = reader.GetString(reader.GetOrdinal("CategoryName"))
+                            },
                             UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
                             UserProfile = new UserProfile
                             {
@@ -146,6 +158,11 @@ namespace Tabloid.Repositories
                             PublishDateTime = DbUtils.GetDateTime(reader, "PostPublishDateTime"),
                             IsApproved = DbUtils.IsDbNull(reader, "IsApproved"),
                             CategoryId = DbUtils.GetInt(reader, "CategoryId"),
+                            Category = new Category
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("CategoryId")),
+                                Name = reader.GetString(reader.GetOrdinal("CategoryName"))
+                            },
                             UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
                             UserProfile = new UserProfile
                             {

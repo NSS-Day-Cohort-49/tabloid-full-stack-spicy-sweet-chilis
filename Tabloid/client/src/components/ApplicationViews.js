@@ -4,13 +4,10 @@ import Login from "./Login";
 import Register from "./Register";
 import Hello from "./Hello";
 import PostList from "./Post/PostList";
-<<<<<<< HEAD
 import CurrentUserPostList from "./Post/CurrentUserPostList";
 import PostDetails from "./Post/PostDetail";
 import PostForm from "./Post/PostForm";
-=======
 import CategoryList from "./Category/CategoryList";
->>>>>>> main
 import TagList from "./tag/TagList";
 
 export default function ApplicationViews({ isLoggedIn }) {
@@ -22,7 +19,7 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <Hello /> : <Redirect to="/login" />}
         </Route>
 
-        <Route path="/posts">
+        <Route path="/posts" exact>
           {isLoggedIn ? <PostList /> : <Redirect to="/login" />}
         </Route>
 
@@ -30,11 +27,11 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <CurrentUserPostList /> : <Redirect to="/login" />}
         </Route>
 
-        <Route path="/posts/:id">
+        <Route path="/posts/detail/:id">
           {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
         </Route>
 
-        <Route path="/posts/add">
+        <Route path="/posts/add" >
         {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}
         </Route>
 

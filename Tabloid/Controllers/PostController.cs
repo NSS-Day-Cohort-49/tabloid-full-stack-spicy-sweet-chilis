@@ -32,10 +32,10 @@ namespace Tabloid.Controllers
             return Ok(posts);
         }
 
-        [HttpGet("myPost/{firebaseUserId}")]
+        [HttpGet("myPost")]
         public IActionResult MyIndex()
         {
-            var currentUserProfile = GetCurrentUserProfileId();
+            var currentUserProfile = GetCurrentUserProfile();
 
             var myPosts = _postRepository.GetAllPostsByUser(currentUserProfile.Id);
 
@@ -60,10 +60,17 @@ namespace Tabloid.Controllers
             return CreatedAtAction("Get", new { id = post.Id }, post);
         }
 
-        private UserProfile GetCurrentUserProfileId()
+        private UserProfile GetCurrentUserProfile()
         {
-            var firebaseUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (firebaseUserId != null)
+            {
+                return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 
