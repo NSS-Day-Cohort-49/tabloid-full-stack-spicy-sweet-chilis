@@ -1,28 +1,23 @@
 import React, { useEffect, useState } from "react";
+import Tag from './Tag';
+import { getAllTags } from "../../modules/tagManager";
 
-const TagList = () => {
+export default  function TagList() {
   const [tags, setTags] = useState([]);
 
   useEffect(() => {
-    getAllTags();
-}, []);
+    getAllTags().then(setTags);
+  }, []);
 
-  const getAllTags = () => {
-    getAllTags().then(tags => setTags(tags));
-  };
+  
 
   return (
-    <div>
-        <br/>
         <div className="container">
             <div className="row justify-content-center">
-                {videos.map((tag) => (
+                {tags.map(tag => 
                     <Tag tag={tag} key={tag.id} />
-                ))}
+                )}
             </div>
         </div>
-    </div>
   );
 };
-
-export default TagList;

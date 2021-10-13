@@ -4,6 +4,7 @@ import Login from "./Login";
 import Register from "./Register";
 import Hello from "./Hello";
 import PostList from "./Post/PostList";
+import TagList from "./tag/TagList";
 
 export default function ApplicationViews({ isLoggedIn }) {
 
@@ -16,6 +17,10 @@ export default function ApplicationViews({ isLoggedIn }) {
 
         <Route path="/posts" exact>
           {isLoggedIn ? <PostList /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/tags">
+          {isLoggedIn ? <TagList /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/login">
