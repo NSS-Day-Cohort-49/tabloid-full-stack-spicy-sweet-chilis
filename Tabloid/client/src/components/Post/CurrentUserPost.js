@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardBody } from "reactstrap";
 import { Link } from "react-router-dom";
 
-const Post = ({ post }) => {
+const CurrentUserPost = ({ post }) => {
     
   return (
       <>
@@ -10,11 +10,11 @@ const Post = ({ post }) => {
     <p className="text-left px-2">Posted by: {post.userProfile.displayName}        
          </p>
       <CardBody>
-          <h3><Link to={`/posts/${post.id}`}>{post.title}</Link></h3>      
+          <h3>{post.title}</h3>      
       </CardBody>   
     </Card>
     </>
   );
 };
 
-export default Post;
+export default CurrentUserPost;

@@ -1,3 +1,7 @@
+import firebase from "firebase/app";
+import "firebase/auth";
+
+
 const baseUrl = '/api/post';
 
 export const getAllPosts = () => {
@@ -5,7 +9,19 @@ export const getAllPosts = () => {
       .then((res) => res.json())
   };
 
-export const getMyPosts = () => {
-    return fetch(`${baseUrl}/mypost`)
-    .then((res) => res.json())
+export const getMyPosts = (firebaseUserId) => {
+    return getToken().then((token) =>
+    fetch(`${baseUrl}/mypost/${firebaseUserId}`, {
+        method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(resp => resp.json()));
 };
+
+export const getPostById = id => {
+    return fetch(`${baseUrl}/${id}`)
+        .then((res) => res.json())
+};
+
+export const getToken = () => firebase.auth().currentUser.getIdToken();

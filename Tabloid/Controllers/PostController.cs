@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Tabloid.Models;
 using Tabloid.Repositories;
 
 namespace Tabloid.Controllers
@@ -15,10 +16,12 @@ namespace Tabloid.Controllers
     public class PostController : ControllerBase
     {
         private readonly IPostRepository _postRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
         
-        public PostController(IPostRepository postRepository)
+        public PostController(IPostRepository postRepository, IUserProfileRepository userProfileRepository)
         {
             _postRepository = postRepository;
+            _userProfileRepository = userProfileRepository;
         }
 
         [HttpGet]
@@ -29,21 +32,31 @@ namespace Tabloid.Controllers
             return Ok(posts);
         }
 
-        [HttpGet("myPost")]
+        [HttpGet("myPost/{firebaseUserId}")]
         public IActionResult MyIndex()
         {
-            //Use postlistviewmodel to pass current user's id
-            int userId = GetCurrentUserProfileId();
+            var currentUserProfile = GetCurrentUserProfileId();
 
-            var myPosts = _postRepository.GetAllPostsByCurrentUser(userId);
+            var myPosts = _postRepository.GetAllPostsByUser(currentUserProfile.Id);
 
             return Ok(myPosts);
         }
 
-        private int GetCurrentUserProfileId()
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
         {
-            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            return int.Parse(id);
+            var post = _postRepository.GetPostById(id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            return Ok(post);
+        }
+
+        private UserProfile GetCurrentUserProfileId()
+        {
+            var firebaseUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
     }
 
