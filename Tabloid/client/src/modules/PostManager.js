@@ -25,3 +25,14 @@ export const getPostById = id => {
 };
 
 export const getToken = () => firebase.auth().currentUser.getIdToken();
+
+
+export const addPost = (post) => {
+    return fetch(baseUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(post),
+    });
+  };
