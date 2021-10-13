@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from 'react-router-dom';
-import { addpost} from "../modules/postManager";
+import { addPost } from "../../modules/PostManager.js";
 
-const PostFormMINE = () => {
+const PostForm = () => {
     const [post, setPost] = useState({})
     const history = useHistory();
 
@@ -17,12 +17,15 @@ const PostFormMINE = () => {
                 window.alert("Please complete the form")
             } else {
                 const newPost = {
-                    id: post.id,
                     title: post.title,
                     description: post.description,
-                    url: post.url
+                    url: post.url,
+                    createDateTime: Date.now(),
+                    publishDateTime: post.publishDateTime,
+                    isApproved: 1,
+                    CategoryId: 2
               }
-              addpost(newPost)
+              addPost(newPost)
               .then((p) => history.push("/posts"))
               }
             }
@@ -49,6 +52,12 @@ const PostFormMINE = () => {
                     <input type="text" id="imageLocation" required autoFocus className="form-control" placeholder="Enter a post" value={post.imageLocation} onChange={handleControlledInputChange} />
                 </div>
             </fieldset>
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="date">Publication Date:</label>
+                    <input type="date" id="date" required autoFocus className="form-control" placeholder="Enter a date" value={post.publishDateTime} onChange={handleControlledInputChange} />
+                </div>
+            </fieldset>
             <div className="buttons"><button className="btns" onClick={
                 (event) => {
                     event.preventDefault()
@@ -62,4 +71,4 @@ const PostFormMINE = () => {
     )
 }
 
-export default postFormMINE;
+export default PostForm;

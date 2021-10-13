@@ -3,7 +3,7 @@ import "firebase/auth";
 
 
 const baseUrl = '/api/post';
-
+export const getToken = () => firebase.auth().currentUser.getIdToken();
 export const getAllPosts = () => {
     return fetch(baseUrl)
       .then((res) => res.json())
@@ -24,7 +24,7 @@ export const getPostById = id => {
         .then((res) => res.json())
 };
 
-export const getToken = () => firebase.auth().currentUser.getIdToken();
+
 
 
 export const addPost = (post) => {

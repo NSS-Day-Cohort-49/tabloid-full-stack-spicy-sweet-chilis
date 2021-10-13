@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getAllPosts } from "../../modules/PostManager.js";
 import Post from './Post.js'
+import { Link } from "react-router-dom";
 
 
 const PostList = () => {
@@ -16,6 +17,9 @@ const PostList = () => {
 
   return (
     <div className="container">
+      <div>
+      
+      </div>
       <div className="row justify-content-center">
         {posts.map((post) => (
           <Post post={post} key={post.id} />
