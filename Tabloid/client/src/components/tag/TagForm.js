@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { addTag } from "../modules/tagManager";
+import { addTag } from "../../modules/tagManager";
 
 export default function TagAddForm() {
   const history = useHistory();
