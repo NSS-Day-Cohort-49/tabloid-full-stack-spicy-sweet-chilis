@@ -22,7 +22,7 @@ namespace Tabloid.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_categoryRepository.GetAll());
+            return Ok(_categoryRepository.GetAllCategories());
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Tabloid.Repositories
     public class CategoryRepository :BaseRepository, ICategoryRepository
     {
         public CategoryRepository(IConfiguration config) : base(config) { }
-        public List<Category> GetAll()
+        public List<Category> GetAllCategories()
         {
             using (var conn = Connection)
             {
