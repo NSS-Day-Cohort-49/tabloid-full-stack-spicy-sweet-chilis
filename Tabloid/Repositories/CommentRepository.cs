@@ -46,7 +46,7 @@ namespace Tabloid.Repositories
             }
         }
 
-        public List<Comment> GetAllCommentsOnPost(int postId)
+        public List<Comment> GetAllCommentsOnPost(int id)
         {
             using (SqlConnection conn = Connection)
             {
@@ -60,12 +60,12 @@ namespace Tabloid.Repositories
 		                                        c.[Subject],
 		                                        c.Content,
 		                                        c.CreateDateTime AS CommentCreateDT,
-		                                        up.Id AS UserProfileId,
+		                                        up.Id AS UserId,
 		                                        up.DisplayName
                                         FROM Comment c
                                         JOIN UserProfile up ON up.Id = c.UserProfileId
                                         WHERE c.PostId = @id";
-                    cmd.Parameters.AddWithValue("@id", postId);
+                    cmd.Parameters.AddWithValue("@id", id);
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -75,11 +75,11 @@ namespace Tabloid.Repositories
                     {
                         comments.Add(new Comment
                         {
-                            Id = DbUtils.GetInt(reader, "Id"),
+                            Id = DbUtils.GetInt(reader, "CommentId"),
                             Content = DbUtils.GetString(reader, "Content"),
                             Subject = DbUtils.GetString(reader, "Subject"),
-                            CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
-                            PostId = DbUtils.GetInt(reader, "CategoryId"),
+                            CreateDateTime = DbUtils.GetDateTime(reader, "CommentCreateDT"),
+                            PostId = DbUtils.GetInt(reader, "PostId"),
                             UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
                             UserProfile = new UserProfile
                             {
