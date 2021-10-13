@@ -31,7 +31,9 @@ export default function ApplicationViews({ isLoggedIn }) {
         </Route>
 
         <Route path="/posts/add">
-        <PostForm />
+        {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}
+        </Route>
+
         <Route path="/tags">
           {isLoggedIn ? <TagList /> : <Redirect to="/login" />}
         </Route>
