@@ -16,9 +16,11 @@ namespace Tabloid.Controllers
     public class CommentController : ControllerBase
     {
         private readonly ICommentRepository _commentRepository;
-        public CommentController(ICommentRepository commentRepository)
+        private readonly IUserProfileRepository _userProfileRepository;
+        public CommentController(ICommentRepository commentRepository, IUserProfileRepository userProfileRepository)
         {
             _commentRepository = commentRepository;
+            _userProfileRepository = userProfileRepository;
         }
 
         [HttpGet]
@@ -29,7 +31,7 @@ namespace Tabloid.Controllers
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("getCommentsByPostId/{id}")]
         //[Authorize]
         public IActionResult Get(int id)
         {
@@ -41,54 +43,39 @@ namespace Tabloid.Controllers
             return Ok(comment);
         }
 
-        //[HttpPost]
-        //public IActionResult Post(Comment comment)
-        //{
-        //    // NOTE: This is only temporary to set the UserProfileId until we implement login
-        //    // TODO: After we implement login, use the id of the current user
-        //    comment.UserProfileId = 1;
+        [HttpGet("{id}")]
+        //[Authorize]
+        public IActionResult GetById(int id)
+        {
+            var comment = _commentRepository.GetCommentById(id);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+            return Ok(comment);
+        }
 
-        //    comment.DateCreated = DateTime.Now;
-        //    if (string.IsNullOrWhiteSpace(comment.Description))
-        //    {
-        //        comment.Description = null;
-        //    }
+        [HttpPost]
+        public IActionResult Post(Comment comment)
+        {
+            var currentUser = GetCurrentUserProfile();
 
-        //    try
-        //    {
-        //        // Handle the comment URL
+            _commentRepository.Add(comment, currentUser.Id);
+            return CreatedAtAction("Get", new { id = comment.Id }, comment);
+        }
 
-        //        // A valid comment link might look like this:
-        //        //  https://www.youtube.com/watch?v=sstOXCQ-EG0&list=PLdo4fOcmZ0oVGRpRwbMhUA0KAvMA2mLyN
-        //        // 
-        //        // Our job is to pull out the "v=XXXXX" part to get the get the "code/id" of the comment
-        //        //  So we can construct an URL that's appropriate for embedding a comment
-
-        //        // An embeddable Comment URL looks something like this:
-        //        //  https://www.youtube.com/embed/sstOXCQ-EG0
-
-        //        // If this isn't a YouTube comment, we should just give up
-        //        if (!comment.Url.Contains("youtube"))
-        //        {
-        //            return BadRequest();
-        //        }
-
-        //        // If it's not already an embeddable URL, we have some work to do
-        //        if (!comment.Url.Contains("embed"))
-        //        {
-        //            var commentCode = comment.Url.Split("v=")[1].Split("&")[0];
-        //            comment.Url = $"https://www.youtube.com/embed/{commentCode}";
-        //        }
-        //    }
-        //    catch // Something went wrong while creating the embeddable url
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _commentRepository.Add(comment);
-
-        //    return CreatedAtAction("Get", new { id = comment.Id }, comment);
-        //}
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (firebaseUserId != null)
+            {
+                return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+            }
+            else
+            {
+                return null;
+            }
+        }
 
 
         //[HttpPut("{id}")]

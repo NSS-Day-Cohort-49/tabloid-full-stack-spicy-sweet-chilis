@@ -8,7 +8,7 @@ export const getAllComments = () => {
 
 export const getAllCommentsOnPost = (id) => {
     return getToken().then((token) => {
-      return fetch(`${apiUrl}/${id}`, {
+      return fetch(`${apiUrl}/getCommentsByPostId/${id}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`
@@ -16,3 +16,14 @@ export const getAllCommentsOnPost = (id) => {
       }).then((resp) => resp.json())
       });
   };
+
+  export const getCommentById = (id) => {
+    return getToken().then((token) => {
+    return fetch(`${apiUrl}/${id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then((resp) => resp.json())
+  });
+};

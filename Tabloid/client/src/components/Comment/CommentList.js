@@ -20,6 +20,7 @@ const CommentList = () => {
   return (
     <div className="container">
       <div className="row justify-content-center">
+        {id ? <>Update Comment</> : <>New Comment</>}{" "}
         {comments.map((comment) => (
           <Comment comment={comment} key={comment.id} />
         ))}

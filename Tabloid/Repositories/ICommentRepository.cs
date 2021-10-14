@@ -7,5 +7,8 @@ namespace Tabloid.Repositories
     {
         List<Comment> GetAllComments();
         List<Comment> GetAllCommentsOnPost(int id);
+        Comment GetCommentById(int id);
+        void Add(Comment comment, int currentUser);
+
     }
 }
