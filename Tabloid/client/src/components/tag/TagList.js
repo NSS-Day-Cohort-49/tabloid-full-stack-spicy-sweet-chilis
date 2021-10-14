@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Tag from './Tag';
 import { getAllTags } from "../../modules/TagManager";
 
@@ -16,7 +16,7 @@ export default  function TagList() {
     <div>
       <h3>Tag List</h3>
       <br></br>
-      <Link to="/tags/add">Add A Tag</Link>
+      <Link to="/tags/form">Add A Tag</Link>
       <br></br>
       <br></br>
         <div className="container">
@@ -29,3 +29,4 @@ export default  function TagList() {
     </div>
   );
 };
+

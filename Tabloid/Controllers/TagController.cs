@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Tabloid.Models;
 using Tabloid.Repositories;
 
@@ -6,6 +7,7 @@ namespace Tabloid.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TagController : ControllerBase
     {
         private readonly ITagRepository _tagRepository;
