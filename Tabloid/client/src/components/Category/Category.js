@@ -1,6 +1,6 @@
 import React from "react"
 import { Card, CardBody, CardFooter } from "reactstrap"
-import { deleteCategory, getAllCategories } from "../../modules/CategoryManager"
+import { deleteCategory, updateCategory, getAllCategories } from "../../modules/CategoryManager"
 import { useHistory } from "react-router"
 
 
@@ -16,7 +16,7 @@ const Category = ({ category }) => {
     const handleEdit = (evt) => {
         evt.preventDefault()
 
-        editCategory(category.id)
+        updateCategory(category.id)
     }
 
     return (
@@ -26,7 +26,11 @@ const Category = ({ category }) => {
                 <button className="deleteCat" onClick={handleDelete}>
                     Delete
                 </button>
-                <button className="updateCat" onClick={handleEdit}>Edit</button>
+                <button className="updateCat" 
+                onClick={() => {
+                        history.push(`/category/edit/${category.id}`)}}>
+                            Edit
+                            </button>
             </CardFooter>
         </Card>
     )
