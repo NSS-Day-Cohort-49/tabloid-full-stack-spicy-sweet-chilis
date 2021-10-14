@@ -78,26 +78,26 @@ namespace Tabloid.Controllers
         }
 
 
-        //[HttpPut("{id}")]
-        //[Authorize]
-        //public IActionResult Put(int id, Comment comment)
-        //{
-        //    if (id != comment.Id)
-        //    {
-        //        return BadRequest();
-        //    }
+        [HttpPut("{id}")]
+        [Authorize]
+        public IActionResult Put(int id, Comment comment)
+        {
+            if (id != comment.Id)
+            {
+                return BadRequest();
+            }
 
-        //    _commentRepository.Update(comment);
-        //    return NoContent();
-        //}
+            _commentRepository.Update(comment);
+            return NoContent();
+        }
 
-        //[HttpDelete("{id}")]
-        //[Authorize]
-        //public IActionResult Delete(int id)
-        //{
-        //    _commentRepository.Delete(id);
-        //    return NoContent();
-        //}
+        [HttpDelete("{id}")]
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+            _commentRepository.Delete(id);
+            return NoContent();
+        }
 
         //[HttpGet("search")]
         //[Authorize]

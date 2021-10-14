@@ -9,6 +9,7 @@ namespace Tabloid.Repositories
         List<Comment> GetAllCommentsOnPost(int id);
         Comment GetCommentById(int id);
         void Add(Comment comment, int currentUser);
-
+        void Update(Comment comment);
+        void Delete(int id);
     }
 }
