@@ -45,11 +45,11 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <CommentList /> : <Redirect to="/login" />}
         </Route>
         
-        <Route path="/tags">
+        <Route path="/tags" exact>
           {isLoggedIn ? <TagList /> : <Redirect to="/login" />}
         </Route>
 
-        <Route path="/tags/addTag">
+        <Route path="/tags/add">
           {isLoggedIn ? <TagForm /> : <Redirect to="/login" />}
         </Route>
 

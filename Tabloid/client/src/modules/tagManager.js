@@ -13,7 +13,7 @@ export const getAllTags = () => {
       if (resp.ok) {
         return resp.json();
       } else {
-        throw new Error("An unknown error occurred while trying to get quotes.");
+        throw new Error("An unknown error occurred while trying to get tags.");
       }
     });
   });
