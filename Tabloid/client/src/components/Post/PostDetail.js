@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { deletePost, getPostById } from "../../modules/PostManager.js";
+import CommentList from "../Comment/CommentList.js";
 
 const PostDetails = () => {
   const [post, setPost] = useState();
@@ -54,7 +55,10 @@ const PostDetails = () => {
           </button>
           <button onClick={deleteThePost}>Delete</button>
         </p>
-      </center>
+        <div>
+        <CommentList />
+      </div>
+      </center>      
     </div>
   );
 };
