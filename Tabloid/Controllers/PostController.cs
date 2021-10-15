@@ -13,6 +13,7 @@ namespace Tabloid.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PostController : ControllerBase
     {
         private readonly IPostRepository _postRepository;
@@ -56,9 +57,34 @@ namespace Tabloid.Controllers
         [HttpPost]
         public IActionResult Post(Post post)
         {
-            _postRepository.Add(post);
+            var currentUserProfile = GetCurrentUserProfile();
+
+            _postRepository.Add(post, currentUserProfile.Id);
             return CreatedAtAction("Get", new { id = post.Id }, post);
         }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Post post)
+        {
+            var currentUserProfile = GetCurrentUserProfile();
+            if (id != post.Id && currentUserProfile.Id != post.UserProfileId)
+            {
+                return BadRequest();
+            }
+
+            _postRepository.Update(post);
+            return NoContent();
+        }
+
+
+        [HttpDelete("delete/{postId}")]
+        public IActionResult Delete(int postId)
+        {
+            _postRepository.Delete(postId);
+            return NoContent();
+        }
+
+
 
         private UserProfile GetCurrentUserProfile()
         {
