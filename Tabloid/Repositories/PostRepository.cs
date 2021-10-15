@@ -178,7 +178,7 @@ namespace Tabloid.Repositories
             }
         }
 
-        public void Add(Post post)
+        public void Add(Post post, int userProfileId)
         {
             using (var conn = Connection)
             {
@@ -200,12 +200,60 @@ namespace Tabloid.Repositories
                     cmd.Parameters.AddWithValue("@PublishDateTime", DbUtils.ValueOrDBNull(post.PublishDateTime));
                     cmd.Parameters.AddWithValue("@IsApproved", post.IsApproved);
                     cmd.Parameters.AddWithValue("@CategoryId", post.CategoryId);
-                    cmd.Parameters.AddWithValue("@UserProfileId", post.UserProfileId);
+                    cmd.Parameters.AddWithValue("@UserProfileId", userProfileId);
 
                     post.Id = (int)cmd.ExecuteScalar();
                 }
             }
         }
 
+        public void Update(Post post)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE Post SET
+                                      Title = @title,
+                                      Content = @content,
+                                      ImageLocation = @imageLocation,
+                                      CreateDateTime = @createDateTime,
+                                      PublishDateTime = @publishDateTime,
+                                      IsApproved = @isApproved,
+                                      CategoryId = @categoryId
+                                      WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", post.Id);
+                    cmd.Parameters.AddWithValue("@Title", post.Title);
+                    cmd.Parameters.AddWithValue("@Content", post.Content);
+                    cmd.Parameters.AddWithValue("@ImageLocation", DbUtils.ValueOrDBNull(post.ImageLocation));
+                    cmd.Parameters.AddWithValue("@CreateDateTime", post.CreateDateTime);
+                    cmd.Parameters.AddWithValue("@PublishDateTime", DbUtils.ValueOrDBNull(post.PublishDateTime));
+                    cmd.Parameters.AddWithValue("@IsApproved", post.IsApproved);
+                    cmd.Parameters.AddWithValue("@CategoryId", post.CategoryId);
+
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+        }
+
+        public void Delete(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DELETE FROM Post WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
