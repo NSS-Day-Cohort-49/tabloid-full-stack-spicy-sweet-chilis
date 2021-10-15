@@ -94,5 +94,115 @@ namespace Tabloid.Repositories
                 }
             }
         }
+
+        public Comment GetCommentById(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"Select  Id AS CommentId, 
+		                                        PostId,
+		                                        UserProfileId,
+		                                        [Subject],
+		                                        Content,
+		                                        CreateDateTime AS CommentCreateDT,
+                                        FROM Comment
+                                        WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    Comment comment = null;
+
+                    while (reader.Read())
+                    {
+                        comment = new Comment
+                        {
+                            Id = DbUtils.GetInt(reader, "CommentId"),
+                            Content = DbUtils.GetString(reader, "Content"),
+                            Subject = DbUtils.GetString(reader, "Subject"),
+                            CreateDateTime = DbUtils.GetDateTime(reader, "CommentCreateDT"),
+                            PostId = DbUtils.GetInt(reader, "PostId"),
+                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                            
+                        };
+                    }
+
+                    reader.Close();
+                    return comment;
+                }
+            }
+        }
+
+        public void Add(Comment comment, int currentUser)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Comment (PostId, 
+					                                          UserProfileId,
+					                                          [Subject],
+					                                          Content,
+					                                          CreateDateTime)
+                                        OUTPUT INSERTED.ID
+                                        VALUES			    (@PostId,
+					                                          @UserProfileId,
+					                                          @Subject,
+					                                          @Content,
+					                                          @CreateDateTime)";
+                    cmd.Parameters.AddWithValue("@PostId", comment.PostId);
+                    cmd.Parameters.AddWithValue("@UserProfileId", currentUser);
+                    cmd.Parameters.AddWithValue("@Subject", comment.Subject);
+                    cmd.Parameters.AddWithValue("@Content", comment.Content);
+                    cmd.Parameters.AddWithValue("@CreateDateTime", comment.CreateDateTime);
+
+                    comment.Id = (int)cmd.ExecuteScalar();    
+                }
+            }
+        }
+
+        public void Update(Comment comment)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE Comment SET
+                                      Subject = @subject,
+                                      Content = @content,
+                                      CreateDateTime = @createDateTime
+                                      WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@id", comment.Id);
+                    cmd.Parameters.AddWithValue("@Subject", comment.Subject);
+                    cmd.Parameters.AddWithValue("@Content", comment.Content);
+                    cmd.Parameters.AddWithValue("@CreateDateTime", DbUtils.ValueOrDBNull(comment.CreateDateTime));
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Delete(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DELETE FROM Comment WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

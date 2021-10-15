@@ -1,5 +1,5 @@
 import React, { useEffect, useState,} from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { getAllComments, getAllCommentsOnPost } from "../../modules/CommentManager.js";
 import Comment from './Comment.js'
 
@@ -7,8 +7,10 @@ import Comment from './Comment.js'
 const CommentList = () => {
   const [comments, setComments] = useState([]);
 
-  const {id} = useParams();
-    // console.log(id);
+  const history = useHistory();
+
+  const { id } = useParams();
+    console.log(id);
   const getComments = (id) => {
     getAllCommentsOnPost(id).then(comments => setComments(comments));
   };
@@ -18,6 +20,7 @@ const CommentList = () => {
   }, []);
 
   return (
+    <>
     <div className="container">
       <div className="row justify-content-center">
         {comments.map((comment) => (
@@ -25,6 +28,12 @@ const CommentList = () => {
         ))}
       </div>
     </div>
+    <div>
+    <button className="btns" onClick={() => {
+                history.push(`/comments/create/${id}`)
+			        }}>Create New Comment</button>
+    </div>
+    </>
   );
 };
 
