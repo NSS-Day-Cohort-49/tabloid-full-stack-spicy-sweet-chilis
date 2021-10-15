@@ -16,23 +16,22 @@ const TagForm = () => {
   }, [])
 
   const handleControlledInputChange = (event) => {
-  const newTag = { ...tag } 
-  newTag[event.target.id] = event.target.value
-  setTag(newTag)
-  }
+    const newTag = { ...tag } 
+    newTag[event.target.id] = event.target.value
+    setTag(newTag)
+    }
 
-  const handleClickSaveForm = () => {
-    if (tagId) {
-    updateTag({id: tag.id, name: tag.name})
-    .then(() => history.push("/tags"))
+    const handleClickSaveForm = () => {
+      if (tagId) {
+      updateTag({id: tag.id, name: tag.name})
     } else {
       const newTag = {
         name: tag.name
     }
-    addTag(newTag)
-      .then(() => history.push("/tags"))
-      .catch((err) => alert(`An error ocurred: ${err.message}`));
 
+    addTag(newTag)
+    .then(() => history.push("/tags"))
+    .catch((err) => alert(`An error ocurred: ${err.message}`));
     }
   }
 

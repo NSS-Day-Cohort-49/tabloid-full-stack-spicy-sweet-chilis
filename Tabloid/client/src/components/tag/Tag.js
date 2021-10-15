@@ -15,4 +15,4 @@ const Tag = ({ tag }) => {
     </>
   );
 }
-export default Tag();
+export default Tag;

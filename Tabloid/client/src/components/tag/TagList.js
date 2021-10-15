@@ -7,10 +7,10 @@ export default  function TagList() {
   const [tags, setTags] = useState([]);
 
   useEffect(() => {
-    getAllTags().then(setTags);
+    getAllTags().then(res => setTags(res));
   }, []);
 
-  
+  console.log(tags);
 
   return (
     <div>
