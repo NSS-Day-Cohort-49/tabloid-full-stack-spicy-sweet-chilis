@@ -6,11 +6,13 @@ const Post = ({ post }) => {
     
   return (
       <>
-    <Card >
-    <p className="text-left px-2">Posted by: {post.userProfile.displayName}        
-         </p>
-      <CardBody>
-          <h3><Link to={`/posts/detail/${post.id}`}>{post.title}</Link></h3>      
+      <Card >
+      <CardBody className="postCard">
+      <div><img src={post.imageLocation} className="mypostimg" alt={post.userProfile.displayName}/></div>
+          <div><h3><Link to={`/posts/detail/${post.id}`}>{post.title}</Link></h3>      
+          <br/>
+          {post.category.name}</div>      
+          <div>{post.publishDateTime}</div>
       </CardBody>   
     </Card>
     </>
