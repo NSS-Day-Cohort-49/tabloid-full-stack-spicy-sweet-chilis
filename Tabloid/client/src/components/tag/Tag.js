@@ -1,9 +1,8 @@
 import React from "react";
-import { useParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Card, CardBody, Button } from "reactstrap";
 
 const Tag = ({ tag }) => {
-const { tagId } = useParams();
 
   return (
     <Card>
