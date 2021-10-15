@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using Tabloid.Models;
 using Tabloid.Repositories;
 
@@ -13,6 +15,14 @@ namespace Tabloid.Controllers
         public UserProfileController(IUserProfileRepository userProfileRepository)
         {
             _userProfileRepository = userProfileRepository;
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Index()
+        {
+            List<UserProfile> userProfiles = _userProfileRepository.GetAllUsers();
+            return Ok(userProfiles);
         }
 
         [HttpGet("{firebaseUserId}")]

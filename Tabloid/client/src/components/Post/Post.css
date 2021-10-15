@@ -49,6 +49,8 @@ label {
 
 .latestPost {
     display: flex;
+    border-right: solid black 5px;
+    margin-right: 5px;
 }
 
 .bodyLP {
@@ -64,4 +66,8 @@ label {
 
 .titleLP{
     margin-right: 2.5px;
+}
+
+.containerLP {
+    display: flex;
 }

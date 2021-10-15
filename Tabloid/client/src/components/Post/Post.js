@@ -12,7 +12,7 @@ const Post = ({ post }) => {
           <div><h3><Link to={`/posts/detail/${post.id}`}>{post.title}</Link></h3>      
           <br/>
           {post.category.name}</div>      
-          <div>{post.publishDateTime}</div>
+          <div> {new Date(post.publishDateTime).toLocaleDateString()}</div>
       </CardBody>   
     </Card>
     </>
