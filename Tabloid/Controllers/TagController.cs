@@ -19,7 +19,8 @@ namespace Tabloid.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_tagRepository.GetAllTags());
+           var tags = _tagRepository.GetAllTags();
+            return Ok(tags);
         }
 
         [HttpGet("{id}")]
@@ -36,11 +37,7 @@ namespace Tabloid.Controllers
         [HttpPost]
         public IActionResult Post(Tag tag)
         {
-            if (string.IsNullOrWhiteSpace(tag.Name))
-            {
-                tag.Name = null;
-                return NoContent();
-            }
+
 
             _tagRepository.Add(tag);
 
