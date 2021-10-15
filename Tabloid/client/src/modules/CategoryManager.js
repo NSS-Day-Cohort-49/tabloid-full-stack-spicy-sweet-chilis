@@ -1,23 +1,8 @@
 import { getToken } from "./authManager";
 import "firebase/auth";
-import { useHistory } from "react-router";
 
 const baseUrl = '/api/category'
 
-// export const getAllCategories = () => {
-//     return fetch(baseUrl)
-//     .then((res) => res.json())
-// };
-
-// export const AddCategory = (category) => {
-//     return fetch(baseUrl, {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(category),
-//         })
-// }
 
 export const getAllCategories = () => {
     return getToken().then((token) => {
@@ -86,15 +71,7 @@ export const updateCategory = (category) => {
         },
         body: JSON.stringify(category)
         })
-        // .then(resp => {
-        // if (resp.ok) {
-        //     getAllCategories();
-        // } else if (resp.status === 401) {
-        //     throw new Error("Unauthorized");
-        // } else {
-        //     throw new Error("An unknown error occurred while trying to save a new category.");
-        // }
-        // });
+        
     });
 };
 
@@ -109,15 +86,7 @@ export const deleteCategory = (id) => {
         },
         body: JSON.stringify(id)
         })
-        // .then(resp => {
-        // if (resp.ok) {
-        //     return resp.json();
-        // } else if (resp.status === 401) {
-        //     throw new Error("Unauthorized");
-        // } else {
-        //     throw new Error("An unknown error occurred while trying to save a new category.");
-        // }
-        // });
+        
     });
 };
 

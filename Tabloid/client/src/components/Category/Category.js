@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { Card, CardBody, CardFooter } from "reactstrap"
-import { deleteCategory, updateCategory, getAllCategories, getCategoryById } from "../../modules/CategoryManager"
-import { useHistory, useParams } from "react-router"
+import { deleteCategory} from "../../modules/CategoryManager"
+import { useHistory } from "react-router"
 
 const Category = ( {category} ) => {
     const history = useHistory()
@@ -14,11 +14,6 @@ const Category = ( {category} ) => {
     }
     }
     
-    // useEffect(() => {
-    //     getCategoryById(id).then((resp) => {
-    //         setCategory(resp)
-    //     })
-    // }, []);
 
     if (!category) {
         return null;
@@ -42,21 +37,3 @@ const Category = ( {category} ) => {
 }
 
 export default Category
-
-
-// const Category = ({ category }) => {
-//     return (
-//         <>
-//         <Card >
-//             <CardBody>
-//                 <h3 className="category_name"> {category.name}
-//                 <Link to="/category/edit"> Edit </Link>
-//                 <Link to="/category/delete"> Delete </Link>
-//                 </h3>
-//             </CardBody>
-//         </Card>
-//         </>
-//     )
-// };
-
-// export default Category;
