@@ -1,12 +1,20 @@
 import React, {useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { addComment, getCommentById } from "../../modules/CommentManager.js";
+import { getPostById } from "../../modules/PostManager.js";
 
 const CommentForm = () => {
-    const [comment, setComment] = useState({})
+    const [comment, setComment] = useState({
+        subject: "",
+        content: "",
+        PostId: 0
+    });
+
+    const [ post, setPost ] = useState({});
+
     const history = useHistory();
-    const { postId } = useParams();
-    const [isLoading, setIsLoading] = useState(true);
+    const { id } = useParams();
+    
 
     const handleControlledInputChange = (event) => {
         const newComment = { ...comment }
@@ -15,36 +23,29 @@ const CommentForm = () => {
         }
 
         const handleClickSaveComment = () => {
-            if (comment.subject === undefined || comment.content === undefined) {
+            
+            if (comment.subject === "" || comment.content === "") {
                 window.alert("Please complete the comment form.")
             } else {
                 const newComment = {
-                    postId: postId,
+                    postId: post.id,
                     subject: comment.subject,
                     content: comment.content,
-                    creatDateTime: comment.creatDateTime
+                    createDateTime: new Date(Date.now()).toISOString()
                 }
                 addComment(newComment)
-                .then((c) => history.push("/comments"))
+                .then(() => history.push(`/posts/detail/${post.id}`))
             }
         }
 
         useEffect(() => {
-            if (commentId) {
-                getCommentById(commentId).then((comment) => {
-                    setComment(comment);
-                    console.log(comment);
-                    setIsLoading(false);
-                });
-            } else {
-                setIsLoading(false);
-            }
+            getPostById(id).then(resp => setPost(resp));
         }, []);
 
         return(
             <>
              <form className="commentForm">
-            <h2 className="commentForm__subject comment_header">{id ? <>Update Comment</> : <>New Comment</>}{" "}</h2>
+            <h2 className="commentForm__subject comment_header">{id ? <>Update Comment</> : <>New Comment</>}</h2>
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="subject">Subject:</label>
@@ -75,3 +76,5 @@ const CommentForm = () => {
             </>
         )
 }
+
+export default CommentForm;

@@ -32,7 +32,7 @@ namespace Tabloid.Controllers
 
 
         [HttpGet("getCommentsByPostId/{id}")]
-        //[Authorize]
+        [Authorize]
         public IActionResult Get(int id)
         {
             var comment = _commentRepository.GetAllCommentsOnPost(id);
@@ -44,7 +44,7 @@ namespace Tabloid.Controllers
         }
 
         [HttpGet("{id}")]
-        //[Authorize]
+        [Authorize]
         public IActionResult GetById(int id)
         {
             var comment = _commentRepository.GetCommentById(id);
@@ -56,6 +56,7 @@ namespace Tabloid.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Post(Comment comment)
         {
             var currentUser = GetCurrentUserProfile();
