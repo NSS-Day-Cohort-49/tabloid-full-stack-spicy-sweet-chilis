@@ -84,7 +84,7 @@ export const addPost = (post) => {
 
 export const updatePost = (post) => {
   return getToken().then((token) => {
-    return fetch(baseUrl, {
+    return fetch(`${baseUrl}/edit/${post.id}`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -93,15 +93,15 @@ export const updatePost = (post) => {
       body: JSON.stringify(post)
     }).then(resp => {
       if (resp.ok) {
-        return resp.json();
+        getAllPosts();
     } else if (resp.status === 401) {
         throw new Error("Unauthorized");
     } else {
         throw new Error("An unknown error occurred while trying to save a new post.");
     }
-    })
-  })
-}
+    });
+  });
+};
 
 export const deletePost = (postId) => {
   return getToken().then((token) => {

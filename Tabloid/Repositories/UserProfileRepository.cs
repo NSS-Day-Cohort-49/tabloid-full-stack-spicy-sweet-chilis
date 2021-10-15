@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using Tabloid.Models;
 using Tabloid.Utils;
 
@@ -95,5 +97,51 @@ namespace Tabloid.Repositories
             _context.SaveChanges();
         }
         */
+
+
+        public List<UserProfile> GetAllUsers()
+        {
+            using (SqlConnection conn = Connection)
+            {
+                List<UserProfile> users = new List<UserProfile>();
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                SELECT u.id, u.FirebaseUserId, u.FirstName, u.LastName, u.DisplayName, u.Email,
+                                    u.CreateDateTime, u.ImageLocation, u.UserTypeId,
+                                    ut.[Name] AS UserTypeName
+                                FROM UserProfile u
+                                LEFT JOIN UserType ut ON u.UserTypeId = ut.id
+                                ORDER BY DisplayName
+                                ";
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            UserProfile userProfile = new UserProfile
+                            {
+                                Id = DbUtils.GetInt(reader, "Id"),
+                                FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
+                                FirstName = DbUtils.GetString(reader, "FirstName"),
+                                LastName = DbUtils.GetString(reader, "LastName"),
+                                DisplayName = DbUtils.GetString(reader, "DisplayName"),
+                                Email = DbUtils.GetString(reader, "Email"),
+                                CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
+                                ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
+                                UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
+                                UserType = new UserType()
+                                {
+                                    Id = DbUtils.GetInt(reader, "UserTypeId"),
+                                    Name = DbUtils.GetString(reader, "UserTypeName"),
+                                }
+                            };
+                            users.Add(userProfile);
+                        }
+                    }
+                    return users;
+                }
+            }
+        }
     }
 }

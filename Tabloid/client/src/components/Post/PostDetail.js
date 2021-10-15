@@ -4,57 +4,63 @@ import { deletePost, getPostById } from "../../modules/PostManager.js";
 import CommentList from "../Comment/CommentList.js";
 
 const PostDetails = () => {
-    const [ post, setPost ] = useState();
-    const { id } = useParams();
+  const [post, setPost] = useState();
+  const { id } = useParams();
 
-    const history = useHistory();
+  const history = useHistory();
 
-    const deleteThePost = (event) => {
-      event.preventDefault()
-      const confirmDelete = window.confirm("Are you sure you would like to delete the post?")
-      if (confirmDelete) {
-          deletePost(post.id).then(() => {history.push('/posts')})
-      };
+  const deleteThePost = (event) => {
+    event.preventDefault();
+    const confirmDelete = window.confirm(
+      "Are you sure you would like to delete the post?"
+    );
+    if (confirmDelete) {
+      deletePost(post.id).then(() => {
+        history.push("/posts");
+      });
+    }
+  };
+
+  useEffect(() => {
+    getPostById(id).then((response) => {
+      setPost(response);
+    });
+  }, []);
+
+  if (!post) {
+    return null;
   }
 
-    useEffect(() => {
-        getPostById(id).then((response) => {
-          setPost(response)})
-    }, []);
-
-    if (!post) {
-        return null;
-    }
-
-    return (
+  return (
     <div className="container">
-      <div className="row justify-content-center">
-      <img src={post.imageLocation} alt={post.title} />
-      <p>
-      <div>
-        <h2>Title: {post.title}</h2>
+      <center>
+        <img src={post.imageLocation} alt={post.title} />
         <p>
-          {post.category.name}
-          </p>
+          <h2>{post.title}</h2>
+          <p>{post.category.name}</p>
           <p>
-        Posted by: {post.userProfile.displayName}           
-        {new Date(post.publishDateTime).toLocaleDateString()}
+            {post.userProfile.displayName}
+            <br />
+            {new Date(post.publishDateTime).toLocaleDateString()}
+          </p>
+          {post.content}
+          <br />
+          <button
+            className="btns"
+            onClick={() => {
+              history.push(`/posts/edit/${post.id}`);
+            }}
+          >
+            Edit
+          </button>
+          <button onClick={deleteThePost}>Delete</button>
         </p>
-        {post.content}
-        <br/>
-        <button className="btns" onClick={() => {
-                history.push(`/posts/edit/${post.id}`)
-			        }}>Edit</button>
-        <button onClick={deleteThePost}>Delete</button>
-        
-        </div>
-        </p>
-      </div>
-      <div>
+        <div>
         <CommentList />
       </div>
+      </center>      
     </div>
-    )
-}
+  );
+};
 
 export default PostDetails;

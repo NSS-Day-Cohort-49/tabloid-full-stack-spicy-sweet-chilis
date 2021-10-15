@@ -1,0 +1,73 @@
+.postForm {
+    border: solid 5px;
+    height: auto;
+    width: 80em;
+    padding: 3em;
+    padding-right: 20em;
+    
+}
+
+.post_header{
+    margin-bottom: 3em;
+}
+
+.pfbtns{
+    justify-content: space-evenly;
+    background-color: black;
+    color:white;
+}
+
+.buttons 
+{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form-group{
+    display: flex;
+    justify-content: flex-start;
+}
+
+label {
+    margin-right: 1em;
+    width: 10em;
+}
+
+.mypostimg {
+    height:auto;
+    width: 15em;
+}
+
+.postCard{
+    display:flex;
+    justify-content: space-between;
+}
+
+.otherLP {
+    margin: 5px;
+}
+
+.latestPost {
+    display: flex;
+    border-right: solid black 5px;
+    margin-right: 5px;
+}
+
+.bodyLP {
+    display:flex;
+    justify-content: space-evenly;
+    margin-right:5px;
+}
+
+.mainimg{
+    height:auto;
+    width: 30em;
+}
+
+.titleLP{
+    margin-right: 2.5px;
+}
+
+.containerLP {
+    display: flex;
+}

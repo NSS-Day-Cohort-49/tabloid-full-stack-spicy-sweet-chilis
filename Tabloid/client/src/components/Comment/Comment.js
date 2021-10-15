@@ -41,7 +41,7 @@ return (
                 Commenter: {comment.userProfile.displayName}
             </p>
             <p className="text-left px-3">
-                Date Commented: {comment.createDateTime}
+                Date Commented: {new Date(comment.createDateTime).toLocaleDateString()}
                 </p>
                 </div>
             </CardBody>

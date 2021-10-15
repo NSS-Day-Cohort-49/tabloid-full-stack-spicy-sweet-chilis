@@ -16,12 +16,11 @@ const CurrentUserPostList = () => {
 
   return (
     <div className="container">
-      <div className="row justify-content-center">
+     <center> <h1>My Post</h1></center>
         {posts.map((post) => (
           <CurrentUserPost post={post} key={post.id} />
         ))}
       </div>
-    </div>
   );
 };
 

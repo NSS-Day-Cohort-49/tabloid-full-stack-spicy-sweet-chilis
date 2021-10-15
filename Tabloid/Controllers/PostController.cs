@@ -63,8 +63,8 @@ namespace Tabloid.Controllers
             return CreatedAtAction("Get", new { id = post.Id }, post);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, Post post)
+        [HttpPut("edit/{id}")]
+        public IActionResult Update(int id, Post post)
         {
             var currentUserProfile = GetCurrentUserProfile();
             if (id != post.Id && currentUserProfile.Id != post.UserProfileId)

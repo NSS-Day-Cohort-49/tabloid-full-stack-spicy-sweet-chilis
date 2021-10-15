@@ -17,14 +17,10 @@ const PostList = () => {
 
   return (
     <div className="container">
-      <div>
-      
-      </div>
-      <div className="row justify-content-center">
-        {posts.map((post) => (
+      {posts.map((post) => (
           <Post post={post} key={post.id} />
         ))}
-      </div>
+      
     </div>
   );
 };

@@ -45,7 +45,7 @@ const CommentForm = () => {
         return(
             <>
              <form className="commentForm">
-            <h2 className="commentForm__subject comment_header">{id ? <>Update Comment</> : <>New Comment</>}</h2>
+            <h2 className="commentForm__subject comment_header">New Comment</h2>
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="subject">Subject:</label>
