@@ -7,7 +7,8 @@ import PostList from "./Post/PostList";
 import CurrentUserPostList from "./Post/CurrentUserPostList";
 import PostDetails from "./Post/PostDetail";
 import PostForm from "./Post/PostForm";
-import CategoryList from "./Category/CategoryList";
+import { CategoryList } from "./Category/CategoryList";
+import CategoryForm from "./Category/AddCategory";
 import TagList from "./tag/TagList";
 import CommentList from "./Comment/CommentList";
 import CommentForm from "./Comment/CommentForm";
@@ -41,12 +42,9 @@ export default function ApplicationViews({ isLoggedIn }) {
         {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}
         </Route>
 
-
         <Route path="/category" exact>
           {isLoggedIn ? <CategoryList /> : <Redirect to="/login" />}
         </Route>
-        
-      
         
         <Route path="/comments/edit/:id" >
         {isLoggedIn ? <CommentForm /> : <Redirect to="/login" />}
@@ -54,6 +52,18 @@ export default function ApplicationViews({ isLoggedIn }) {
         
         <Route path="/comments/create/:id" >
         {isLoggedIn ? <CommentForm /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/category/add" exact>
+          {isLoggedIn ? <CategoryForm /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/category/edit/:id" exact>
+          {isLoggedIn ? <CategoryForm /> : <Redirect to="/login" />}
+        </Route>
+        
+        <Route path="/comments/:id" exact>
+          {isLoggedIn ? <CommentList /> : <Redirect to="/login" />}
         </Route>
         
         <Route path="/tags">
