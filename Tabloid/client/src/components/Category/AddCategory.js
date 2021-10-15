@@ -1,25 +1,23 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useHistory, useParams} from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { addCategory, updateCategory } from "../modules/CategoryManager";
-import { getAllCategories, getCategoryById } from '../../modules/categoryManager';
+import { AddCategory, updateCategory } from "../../modules/CategoryManager.js";
+import { getAllCategories, getCategoryById } from '../../modules/CategoryManager.js';
 
 const CategoryForm = () => {
     const history = useHistory()
 
     const [category, setCategory] = useState({
-        // name: "",
     })
+    
+    const {id} = useParams()
 
-    const params = useParams()
-
-    const categoryId = params.id
 
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        if (categoryId) {
-            getCategoryById(categoryId).then((event) => {
+        if (id) {
+            getCategoryById(id).then((event) => {
                 setCategory(event)
                 setIsLoading(false)
             })
@@ -27,6 +25,7 @@ const CategoryForm = () => {
             setIsLoading(false)
         }
     }, [])
+
 
     const handleInputChange = (evt) => {
         const value = evt.target.value
@@ -41,23 +40,21 @@ const CategoryForm = () => {
     const handleSave = (evt) => {
         evt.preventDefault()
 
-        if (categoryId) {
+        if (id) {
             setIsLoading(true)
             updateCategory({
-                id: parseInt(categoryId),
+                id: id,
                 name: category.name,
             }).then(() => history.push("/category"))
         } else {
-            addCategory({
+            AddCategory({
                 name: category.name,
             }).then(() => {
                 history.push("/category")
             })
         }
 
-        // addCategory(category).then(() => {
-        //     history.push("/category")
-        // })
+        
     }
 
     return (
@@ -78,7 +75,7 @@ const CategoryForm = () => {
                 disabled={isLoading}
                 onClick={handleSave}
             >
-                {categoryId ? "Save Category" : "Add Category"}
+                {id ? "Save Category" : "Add Category"}
             </Button>
         </Form>
     )
@@ -107,7 +104,7 @@ export default CategoryForm
 //     const handleSave = (evt) => {
 //     evt.preventDefault();
 
-//     addCategory(category).then(() => {
+//     AddCategory(category).then(() => {
 //         setCategory(emptyCategory);
 //         getAllCategories();
 //         history.push("/categories")
@@ -136,7 +133,7 @@ export default CategoryForm
 
 //     const form = (y) => {
 //         y.preventDefault();
-//         addCategory({ name: categoryName })
+//         AddCategory({ name: categoryName })
 //         .then(() => history.push("/add"))
 //     };
 

@@ -8,7 +8,7 @@ import CurrentUserPostList from "./Post/CurrentUserPostList";
 import PostDetails from "./Post/PostDetail";
 import PostForm from "./Post/PostForm";
 import { CategoryList } from "./Category/CategoryList";
-import addCategory from "../modules/CategoryManager";
+import CategoryForm from "./Category/AddCategory";
 import TagList from "./tag/TagList";
 import CommentList from "./Comment/CommentList";
 
@@ -47,11 +47,11 @@ export default function ApplicationViews({ isLoggedIn }) {
         </Route>
         
         <Route path="/category/add" exact>
-          {isLoggedIn ? <addCategory /> : <Redirect to="/login" />}
+          {isLoggedIn ? <CategoryForm /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/category/edit/:id" exact>
-          {isLoggedIn ? <addCategory /> : <Redirect to="/login" />}
+          {isLoggedIn ? <CategoryForm /> : <Redirect to="/login" />}
         </Route>
         
         <Route path="/comments/:id" exact>

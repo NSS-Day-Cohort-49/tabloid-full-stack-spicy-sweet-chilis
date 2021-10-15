@@ -11,17 +11,19 @@ namespace Tabloid.Repositories
 {
     public class CategoryRepository :BaseRepository, ICategoryRepository
     {
-        public CategoryRepository(IConfiguration config) : base(config) { }
+        public CategoryRepository(IConfiguration configuration) : base(configuration) { }
         public List<Category> GetAllCategories()
         {
-            using (var conn = Connection)
+            using (SqlConnection conn = Connection)
             {
                 conn.Open();
-                using (var cmd = conn.CreateCommand())
+
+                using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT id, name
                                       FROM Category
                                       ORDER BY name";
+
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     List<Category> categories = new List<Category>();
@@ -31,7 +33,7 @@ namespace Tabloid.Repositories
                         categories.Add(new Category()
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
-                            Name = DbUtils.GetString(reader,"Name"),
+                            Name = DbUtils.GetString(reader, "Name"),
                         });
                     }
 
@@ -42,7 +44,7 @@ namespace Tabloid.Repositories
             }
         }
 
-        public List<Category> GetCategoryById(int id)
+        public Category GetCategoryById(int id)
         {
             using (var conn = Connection)
             {
@@ -58,19 +60,19 @@ namespace Tabloid.Repositories
 
                         SqlDataReader  reader = cmd.ExecuteReader();
 
-                        List<Category> categories = new List<Category>();
+                        Category category = null;
 
-                        while (reader.Read())
+                        if (reader.Read())
                         {
-                            categories.Add(new Category
+                            category = new Category
                             {
                                 Id = DbUtils.GetInt(reader, "Id"),
                                 Name = DbUtils.GetString(reader, "Name"),
-                            });
+                            };
                             
                         }
                         reader.Close();
-                        return categories;
+                        return category;
                     }
                 }
             }

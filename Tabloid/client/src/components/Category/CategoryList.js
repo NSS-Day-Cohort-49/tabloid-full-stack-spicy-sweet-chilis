@@ -9,7 +9,7 @@ export const CategoryList = () => {
     const [categories, setCategories] = useState([])
 
     useEffect(() => {
-        getAllCategories().then(setCategories)
+        getAllCategories().then(categories => setCategories(categories));
     }, [])
 
     return (

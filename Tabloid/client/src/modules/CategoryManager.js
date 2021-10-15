@@ -1,4 +1,5 @@
 import { getToken } from "./authManager";
+import "firebase/auth";
 import { useHistory } from "react-router";
 
 const baseUrl = '/api/category'
@@ -8,7 +9,7 @@ const baseUrl = '/api/category'
 //     .then((res) => res.json())
 // };
 
-// export const addCategory = (category) => {
+// export const AddCategory = (category) => {
 //     return fetch(baseUrl, {
 //         method: "POST",
 //         headers: {
@@ -77,22 +78,23 @@ export const AddCategory = (category) => {
 
 export const updateCategory = (category) => {
     return getToken().then((token) => {
-        return fetch(`${baseUrl}, /${category.id}`, {
+        return fetch(`${baseUrl}/${category.id}`, {
         method: "PUT",
         headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json"
         },
         body: JSON.stringify(category)
-        }).then(resp => {
-        if (resp.ok) {
-            return resp.json();
-        } else if (resp.status === 401) {
-            throw new Error("Unauthorized");
-        } else {
-            throw new Error("An unknown error occurred while trying to save a new category.");
-        }
-        });
+        })
+        // .then(resp => {
+        // if (resp.ok) {
+        //     getAllCategories();
+        // } else if (resp.status === 401) {
+        //     throw new Error("Unauthorized");
+        // } else {
+        //     throw new Error("An unknown error occurred while trying to save a new category.");
+        // }
+        // });
     });
 };
 
@@ -106,15 +108,16 @@ export const deleteCategory = (id) => {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(id)
-        }).then(resp => {
-        if (resp.ok) {
-            return resp.json();
-        } else if (resp.status === 401) {
-            throw new Error("Unauthorized");
-        } else {
-            throw new Error("An unknown error occurred while trying to save a new category.");
-        }
-        });
+        })
+        // .then(resp => {
+        // if (resp.ok) {
+        //     return resp.json();
+        // } else if (resp.status === 401) {
+        //     throw new Error("Unauthorized");
+        // } else {
+        //     throw new Error("An unknown error occurred while trying to save a new category.");
+        // }
+        // });
     });
 };
 
