@@ -29,6 +29,50 @@ export default function Header({ isLoggedIn }) {
               </NavItem>
             }
           </Nav>
+          <Nav className="mr-auto" navbar>
+            {isLoggedIn &&
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/posts">Post</NavLink>
+              </NavItem>
+            }
+          </Nav>
+          <Nav className="mr-auto" navbar>
+            {isLoggedIn &&
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/posts/add">Add Post</NavLink>
+              </NavItem>
+            }
+          </Nav>
+          <Nav className="mr-auto" navbar>
+            {isLoggedIn &&
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/myposts">My Post</NavLink>
+              </NavItem>
+            }
+          </Nav>
+          <Nav className="mr-auto" navbar>
+            {isLoggedIn &&
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/users" exact>Users</NavLink>
+              </NavItem>
+            }
+          </Nav>
+          <Nav className="mr-auto" navbar>
+            {isLoggedIn &&
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/category">Category Management</NavLink>
+              </NavItem>
+            }
+          </Nav>
+
+          <Nav className="mr-auto" navbar>
+          {isLoggedIn &&
+            <NavItem>
+                <NavLink tag={RRNavLink} to="/tags">Tag Manager</NavLink>
+              </NavItem>
+            }
+          </Nav>
+          
           <Nav navbar>
             {isLoggedIn &&
               <>
